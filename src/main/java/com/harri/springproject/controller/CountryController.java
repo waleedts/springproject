@@ -7,15 +7,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Map;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping(value = "/countries",method = RequestMethod.GET)
 public class CountryController {
     CountryService service;
-    Logger log=Logger.getAnonymousLogger();
     @Autowired
     public CountryController(CountryService service) {
         this.service = service;
@@ -26,7 +23,7 @@ public class CountryController {
         Map<String, Object> response=continent==null?service.getAllCountries(pageable):service.getCountryByContinent(continent,pageable);
         if((Long)response.get("totalItems")==0){
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "No Country With  Not Found"
+                    HttpStatus.NOT_FOUND, "No Countries Match Your Search "
             );
         }
         return response;
